@@ -1,5 +1,5 @@
-# Config file for use with Windows logs from Winlogbeat on Secuirty Onion
-# Sloghtly modified from the base Sigma elk-winlogbeat.yml config file
+# Config file for use with Windows logs from Winlogbeat on Security Onion
+# Slightly modified from the base Sigma elk-winlogbeat.yml config file
 logsources:
   windows:
     product: windows
