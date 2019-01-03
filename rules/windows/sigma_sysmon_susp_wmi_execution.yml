@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects WMI executing suspicious commands
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.Image.keyword:(*\\wmic.exe) AND event_data.CommandLine.keyword:(*\/NODE\:*process\
+        call\ create\ * *\ path\ AntiVirusProduct\ get\ * *\ path\ FirewallProduct\
+        get\ * *\ shadowcopy\ delete\ *))
+index: logstash-beats-*
+name: Suspicious-WMI-execution_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

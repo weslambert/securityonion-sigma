@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects a Powershell process that opens network connections - check for
+  suspicious target ports and target systems - adjust to your environment (e.g. extend
+  filters with company's ip range')
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_data.Image.keyword:*\\powershell.exe
+        AND event_id:"3") AND NOT (event_data.User:"NT\ AUTHORITY\\SYSTEM" AND event_data.DestinationIsIpv6:"false"
+        AND event_data.DestinationIp.keyword:(10.* 192.168.* 172.* 127.0.0.1)))
+index: logstash-beats-*
+name: PowerShell-Network-Connections_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

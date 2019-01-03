@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects renaming of file while deletion with SDelete tool
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:("4656" "4663" "4658") AND event_data.ObjectName.keyword:(*.AAA
+        *.ZZZ))
+index: logstash-beats-*
+name: Secure-Deletion-with-SDelete_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

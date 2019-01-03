@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects suspicious Rundll32 execution from control.exe as used by Equation
+  Group and Exploit Kits
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_id:"1"
+        AND event_data.CommandLine.keyword:*\\rundll32.exe\ * AND event_data.ParentImage.keyword:*\\System32\\control.exe)
+        AND NOT (event_data.CommandLine.keyword:*Shell32.dll*))
+index: logstash-beats-*
+name: Suspicious-Control-Panel-DLL-Load_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

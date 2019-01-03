@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects Elise backdoor acitivty as used by APT32
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND (event_data.CommandLine.keyword:*\\AppData\\Roaming\\MICROS\~1\\Windows\\Caches\\NavShExt.dll,Setting
+        OR (event_data.Image:"C\:\\Windows\\SysWOW64\\cmd.exe" AND event_data.CommandLine.keyword:*\\Windows\\Caches\\NavShExt.dll\
+        *)))
+index: logstash-beats-*
+name: Elise-Backdoor_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

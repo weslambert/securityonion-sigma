@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of scheduled tasks in user session
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_data.CommandLine.keyword:*\
+        \/create\ * AND event_id:"1" AND event_data.Image.keyword:*\\schtasks.exe)
+        AND NOT (event_data.User:"NT\ AUTHORITY\\SYSTEM"))
+index: logstash-beats-*
+name: Scheduled-Task-Creation_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

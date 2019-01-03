@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects the creation of a schtask via PowerSploit Default Configuration
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.ParentImage.keyword:(*\\Powershell.exe)
+        AND event_data.CommandLine.keyword:(*\\schtasks.exe*\/Create*\/RU*system*\/SC*ONLOGON*
+        *\\schtasks.exe*\/Create*\/RU*system*\/SC*DAILY* *\\schtasks.exe*\/Create*\/RU*system*\/SC*ONIDLE*
+        *\\schtasks.exe*\/Create*\/RU*system*\/SC*HOURLY*))
+index: logstash-beats-*
+name: Default-PowerSploit-Schtasks-Persistence_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

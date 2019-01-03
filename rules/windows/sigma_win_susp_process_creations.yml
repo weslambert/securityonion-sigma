@@ -1,0 +1,57 @@
+alert:
+- debug
+description: Detects suspicious process starts on Windows systems based on keywords
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine.keyword:(vssadmin.exe\
+        delete\ shadows* vssadmin\ delete\ shadows* vssadmin\ create\ shadow\ \/for\=C\:*
+        copy\ \\\?\\GLOBALROOT\\Device\*\\windows\\ntds\\ntds.dit* copy\ \\\?\\GLOBALROOT\\Device\*\\config\\SAM*
+        reg\ SAVE\ HKLM\\SYSTEM\ * *\ sekurlsa\:* net\ localgroup\ adminstrators\
+        *\ \/add net\ group\ \"Domain\ Admins\"\ *\ \/ADD\ \/DOMAIN certutil.exe\
+        *\-urlcache*\ http* certutil.exe\ *\-urlcache*\ ftp* netsh\ advfirewall\ firewall\
+        *\\AppData\* attrib\ \+S\ \+H\ \+R\ *\\AppData\* schtasks*\ \/create\ *\\AppData\*
+        schtasks*\ \/sc\ minute* *\\Regasm.exe\ *\\AppData\* *\\Regasm\ *\\AppData\*
+        *\\bitsadmin*\ \/transfer* *\\certutil.exe\ *\ \-decode\ * *\\certutil.exe\
+        *\ \-decodehex\ * *\\certutil.exe\ \-ping\ * icacls\ *\ \/grant\ Everyone\:F\
+        \/T\ \/C\ \/Q *\ wmic\ shadowcopy\ delete\ * *\ wbadmin.exe\ delete\ catalog\
+        \-quiet* *\\wscript.exe\ *.jse *\\wscript.exe\ *.js *\\wscript.exe\ *.vba
+        *\\wscript.exe\ *.vbe *\\cscript.exe\ *.jse *\\cscript.exe\ *.js *\\cscript.exe\
+        *.vba *\\cscript.exe\ *.vbe *\\fodhelper.exe *waitfor*\/s* *waitfor*\/si\
+        persist* *remote*\/s* *remote*\/c* *remote*\/q* *AddInProcess*) AND event_id:"1")
+index: logstash-beats-*
+name: Suspicious-Process-Creation_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects suspicious process starts on Windows systems based on keywords
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND ProcessCommandLine.keyword:(vssadmin.exe\ delete\
+        shadows* vssadmin\ delete\ shadows* vssadmin\ create\ shadow\ \/for\=C\:*
+        copy\ \\\?\\GLOBALROOT\\Device\*\\windows\\ntds\\ntds.dit* copy\ \\\?\\GLOBALROOT\\Device\*\\config\\SAM*
+        reg\ SAVE\ HKLM\\SYSTEM\ * *\ sekurlsa\:* net\ localgroup\ adminstrators\
+        *\ \/add net\ group\ \"Domain\ Admins\"\ *\ \/ADD\ \/DOMAIN certutil.exe\
+        *\-urlcache*\ http* certutil.exe\ *\-urlcache*\ ftp* netsh\ advfirewall\ firewall\
+        *\\AppData\* attrib\ \+S\ \+H\ \+R\ *\\AppData\* schtasks*\ \/create\ *\\AppData\*
+        schtasks*\ \/sc\ minute* *\\Regasm.exe\ *\\AppData\* *\\Regasm\ *\\AppData\*
+        *\\bitsadmin*\ \/transfer* *\\certutil.exe\ *\ \-decode\ * *\\certutil.exe\
+        *\ \-decodehex\ * *\\certutil.exe\ \-ping\ * icacls\ *\ \/grant\ Everyone\:F\
+        \/T\ \/C\ \/Q *\ wmic\ shadowcopy\ delete\ * *\ wbadmin.exe\ delete\ catalog\
+        \-quiet* *\\wscript.exe\ *.jse *\\wscript.exe\ *.js *\\wscript.exe\ *.vba
+        *\\wscript.exe\ *.vbe *\\cscript.exe\ *.jse *\\cscript.exe\ *.js *\\cscript.exe\
+        *.vba *\\cscript.exe\ *.vbe *\\fodhelper.exe *waitfor*\/s* *waitfor*\/si\
+        persist* *remote*\/s* *remote*\/c* *remote*\/q* *AddInProcess*) AND event_id:"4688")
+index: logstash-beats-*
+name: Suspicious-Process-Creation-2_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

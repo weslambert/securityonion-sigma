@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects suspicious DNS queries known from Cobalt Strike beacons
+filter:
+- query:
+    query_string:
+      query: query.keyword:(aaa.stage.* post.1*)
+index: logstash-bro-*
+name: Cobalt-Strike-DNS-Beaconing_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

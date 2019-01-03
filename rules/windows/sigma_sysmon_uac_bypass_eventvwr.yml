@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects UAC bypass method using Windows event viewer
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND ((event_data.TargetObject:"HKEY_USERS\*\\mscfile\\shell\\open\\command"
+        AND event_id:"13") OR (log_name:"Microsoft\-Windows\-Sysmon\/Operational"
+        AND (event_id:"1" AND event_data.ParentImage.keyword:*\\eventvwr.exe) AND
+        NOT (event_data.Image.keyword:*\\mmc.exe))))
+index: logstash-beats-*
+name: UAC-Bypass-via-Event-Viewer_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

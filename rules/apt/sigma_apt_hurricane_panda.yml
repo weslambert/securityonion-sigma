@@ -1,0 +1,32 @@
+alert:
+- debug
+description: Detects Hurricane Panda Activity
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:(*\ localgroup\ administrators\ admin\
+        \/add *\\Win64.exe*))
+index: logstash-beats-*
+name: Hurricane-Panda-Activity_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects Hurricane Panda Activity
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ProcessCommandLine.keyword:(*\
+        localgroup\ administrators\ admin\ \/add *\\Win64.exe*))
+index: logstash-beats-*
+name: Hurricane-Panda-Activity-2_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

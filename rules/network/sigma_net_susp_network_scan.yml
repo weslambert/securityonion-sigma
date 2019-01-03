@@ -1,0 +1,20 @@
+alert:
+- debug
+buffer_time:
+  hours: 24
+description: Detects many failed connection attempts to different ports or hosts
+doc_type: doc
+filter:
+- query:
+    query_string:
+      query: action:"denied"
+index: logstash-firewall-*
+max_threshold: 10
+metric_agg_key: destination_ip.keyword
+metric_agg_type: cardinality
+name: Network-Scans_1
+priority: 3
+query_key: source_ip.keyword
+realert:
+  minutes: 0
+type: metric_aggregation

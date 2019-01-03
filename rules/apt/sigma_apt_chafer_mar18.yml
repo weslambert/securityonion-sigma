@@ -1,0 +1,39 @@
+alert:
+- debug
+description: Detects Chafer activity attributed to OilRig as reported in Nyotron report
+  in March 2018
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND ((event_data.Image.keyword:*\\Windows\\Temp\\DB\*.exe
+        AND event_id:"1") OR (event_id:"13" AND event_data.EventType:"SetValue" AND
+        event_data.TargetObject.keyword:(*SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\UMe
+        *SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\UT)) OR (event_id:"13" AND
+        event_data.EventType:"SetValue" AND event_data.Details:"DWORD\ \(0x00000001\)"
+        AND event_data.TargetObject.keyword:*\\Control\\SecurityProviders\\WDigest\\UseLogonCredential)
+        OR (event_id:"1" AND event_data.CommandLine.keyword:(*\\Service.exe\ i *\\Service.exe\
+        u *\\microsoft\\Taskbar\\autoit3.exe C\:\\wsc.exe*)) OR (event_id:"1" AND
+        event_data.CommandLine.keyword:*\\nslookup.exe\ \-q\=TXT* AND event_data.ParentImage.keyword:*\\Autoit*)))
+index: logstash-beats-*
+name: Chafer-Activity-2_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects Chafer activity attributed to OilRig as reported in Nyotron report
+  in March 2018
+filter:
+- query:
+    query_string:
+      query: (event_id:"7045" AND event_data.ServiceName:("SC\ Scheduled\ Scan" "UpdatMachine"))
+index: logstash-beats-*
+name: Chafer-Activity_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

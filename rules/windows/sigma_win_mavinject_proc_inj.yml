@@ -1,0 +1,31 @@
+alert:
+- debug
+description: Detects process injection using the signed Windows tool Mavinject32.exe
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine.keyword:*\
+        \/INJECTRUNNING\ * AND event_id:"1")
+index: logstash-beats-*
+name: MavInject-Process-Injection_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects process injection using the signed Windows tool Mavinject32.exe
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ProcessCommandLine.keyword:*\
+        \/INJECTRUNNING\ *)
+index: logstash-beats-*
+name: MavInject-Process-Injection-2_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

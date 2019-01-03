@@ -1,0 +1,17 @@
+alert:
+- debug
+description: This method detects well-known keywords, certain field combination that
+  appear in Windows Eventlog when certain hack tools are used
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_data.WorkstationName:"RULER" AND event_id:("4776"
+        "4624" "4625"))
+index: logstash-beats-*
+name: Hacktool-Use_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

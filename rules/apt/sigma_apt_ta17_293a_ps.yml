@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects renamed SysInternals tool execution with a binary named ps.exe
+  as used by Dragonfly APT group and documentied in TA17-293A report
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine:"ps.exe\ \-accepteula")
+index: logstash-beats-*
+name: Ps.exe-Renamed-SysInternals-Tool_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

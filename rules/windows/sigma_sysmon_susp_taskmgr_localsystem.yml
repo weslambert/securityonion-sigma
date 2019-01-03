@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the creation of taskmgr.exe process in context of LOCAL_SYSTEM
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.User:"NT\ AUTHORITY\\SYSTEM" AND event_data.Image.keyword:*\\taskmgr.exe)
+index: logstash-beats-*
+name: Taskmgr-as-LOCAL_SYSTEM_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

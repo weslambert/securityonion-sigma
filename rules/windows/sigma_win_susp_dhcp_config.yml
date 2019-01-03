@@ -1,0 +1,16 @@
+alert:
+- debug
+description: This rule detects a DHCP server in which a specified Callout DLL (in
+  registry) was loaded
+filter:
+- query:
+    query_string:
+      query: event_id:"1033"
+index: logstash-beats-*
+name: DHCP-Server-Loaded-the-CallOut-DLL_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

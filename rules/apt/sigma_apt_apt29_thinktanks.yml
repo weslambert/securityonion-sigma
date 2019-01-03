@@ -1,0 +1,33 @@
+alert:
+- debug
+description: This method detects a suspicious powershell command line combination
+  as used by APT29 in a campaign against US think tanks
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine.keyword:*\-noni\
+        \-ep\ bypass\ $* AND event_id:"1")
+index: logstash-beats-*
+name: APT29_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: This method detects a suspicious powershell command line combination
+  as used by APT29 in a campaign against US think tanks
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND ProcessCommandLine.keyword:*\-noni\ \-ep\ bypass\
+        $* AND event_id:"4688")
+index: logstash-beats-*
+name: APT29-2_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

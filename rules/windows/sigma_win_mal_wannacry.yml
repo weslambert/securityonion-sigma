@@ -1,0 +1,39 @@
+alert:
+- debug
+description: Detects WannaCry Ransomware Activity
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND (event_data.Image.keyword:(*\\tasksche.exe *\\mssecsvc.exe *\\taskdl.exe
+        *\\WanaDecryptor* *\\taskhsvc.exe *\\taskse.exe *\\111.exe *\\lhdfrgui.exe
+        *\\diskpart.exe *\\linuxnew.exe *\\wannacry.exe) OR event_data.CommandLine.keyword:(*vssadmin\
+        delete\ shadows* *icacls\ *\ \/grant\ Everyone\:F\ \/T\ \/C\ \/Q* *bcdedit\
+        \/set\ \{default\}\ recoveryenabled\ no* *wbadmin\ delete\ catalog\ \-quiet*)))
+index: logstash-beats-*
+name: WannaCry-Ransomware-2_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects WannaCry Ransomware Activity
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND (event_data.NewProcessName.keyword:(*\\tasksche.exe
+        *\\mssecsvc.exe *\\taskdl.exe *\\WanaDecryptor* *\\taskhsvc.exe *\\taskse.exe
+        *\\111.exe *\\lhdfrgui.exe *\\diskpart.exe *\\linuxnew.exe *\\wannacry.exe)
+        OR event_data.CommandLine.keyword:(*vssadmin\ delete\ shadows* *icacls\ *\
+        \/grant\ Everyone\:F\ \/T\ \/C\ \/Q* *bcdedit\ \/set\ \{default\}\ recoveryenabled\
+        no* *wbadmin\ delete\ catalog\ \-quiet*)))
+index: logstash-beats-*
+name: WannaCry-Ransomware_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

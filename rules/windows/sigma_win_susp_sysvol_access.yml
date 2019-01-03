@@ -1,0 +1,31 @@
+alert:
+- debug
+description: Detects Access to Domain Group Policies stored in SYSVOL
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND ProcessCommandLine.keyword:*\\SYSVOL\*\\policies\*
+        AND event_id:"4688")
+index: logstash-beats-*
+name: Suspicious-SYSVOL-Domain-Group-Policy-Access-2_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects Access to Domain Group Policies stored in SYSVOL
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:*\\SYSVOL\*\\policies\*)
+index: logstash-beats-*
+name: Suspicious-SYSVOL-Domain-Group-Policy-Access_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

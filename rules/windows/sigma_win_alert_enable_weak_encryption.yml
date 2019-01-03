@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects scenario where weak encryption is enabled for a user profile
+  which could be used for hash/password cracking.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND (event_id:"4738" AND ("DES" OR "Preauth" OR
+        "Encrypted")) AND "Enabled")
+index: logstash-beats-*
+name: Weak-Encryption-Enabled-and-Kerberoast_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

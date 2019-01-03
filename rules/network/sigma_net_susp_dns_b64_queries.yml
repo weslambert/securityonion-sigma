@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects suspicious DNS queries using base64 encoding
+filter:
+- query:
+    query_string:
+      query: query.keyword:(*\=\=.*)
+index: logstash-bro-*
+name: Suspicious-DNS-Query-with-B64-Encoded-String_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

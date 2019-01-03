@@ -1,0 +1,55 @@
+alert:
+- debug
+buffer_time:
+  seconds: 15
+description: Detects a set of commands often used in recon stages by different attack
+  groups
+doc_type: doc
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine.keyword:(tasklist
+        net\ time systeminfo whoami nbtstat net\ start *\\net1\ start qprocess nslookup
+        hostname.exe *\\net1\ user\ \/domain *\\net1\ group\ \/domain *\\net1\ group\
+        \"domain\ admins\"\ \/domain *\\net1\ group\ \"Exchange\ Trusted\ Subsystem\"\
+        \/domain *\\net1\ accounts\ \/domain *\\net1\ user\ net\ localgroup\ administrators
+        netstat\ \-an) AND event_id:"1")
+index: logstash-beats-*
+max_threshold: 4
+metric_agg_key: _id
+metric_agg_type: cardinality
+name: Reconnaissance-Activity-with-Net-Command_0
+priority: 3
+query_key: event_data.CommandLine.keyword
+realert:
+  minutes: 0
+type: metric_aggregation
+
+alert:
+- debug
+buffer_time:
+  seconds: 15
+description: Detects a set of commands often used in recon stages by different attack
+  groups
+doc_type: doc
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND ProcessCommandLine.keyword:(tasklist net\ time
+        systeminfo whoami nbtstat net\ start *\\net1\ start qprocess nslookup hostname.exe
+        *\\net1\ user\ \/domain *\\net1\ group\ \/domain *\\net1\ group\ \"domain\
+        admins\"\ \/domain *\\net1\ group\ \"Exchange\ Trusted\ Subsystem\"\ \/domain
+        *\\net1\ accounts\ \/domain *\\net1\ user\ net\ localgroup\ administrators
+        netstat\ \-an) AND event_id:"4688")
+index: logstash-beats-*
+max_threshold: 4
+metric_agg_key: _id
+metric_agg_type: cardinality
+name: Reconnaissance-Activity-with-Net-Command-2_0
+priority: 3
+query_key: event_data.CommandLine.keyword
+realert:
+  minutes: 0
+type: metric_aggregation
+
+

@@ -1,0 +1,33 @@
+alert:
+- debug
+description: Detects the deactivation of the Scheduled defragmentation task as seen
+  by Slingshot APT group
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND TaskName:"\\Microsoft\\Windows\\Defrag\\ScheduledDefrag"
+        AND event_id:"4701")
+index: logstash-beats-*
+name: Defrag-Deactivation-2_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects the deactivation of the Scheduled defragmentation task as seen
+  by Slingshot APT group
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_data.CommandLine.keyword:(*schtasks*\
+        \/delete\ *Defrag\\ScheduledDefrag*) AND event_id:"1")
+index: logstash-beats-*
+name: Defrag-Deactivation_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

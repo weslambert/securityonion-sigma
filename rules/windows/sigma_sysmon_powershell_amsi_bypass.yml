@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects Request to amsiInitFailed that can be used to disable AMSI Scanning
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:(*System.Management.Automation.AmsiUtils*)
+        AND event_data.CommandLine.keyword:(*amsiInitFailed*))
+index: logstash-beats-*
+name: Powershell-AMSI-Bypass-via-.NET-Reflection_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

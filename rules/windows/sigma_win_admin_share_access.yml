@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects access to $ADMIN share
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND (event_id:"5140" AND event_data.ShareName:"Admin$")
+        AND NOT (event_data.SubjectUserName.keyword:*$))
+index: logstash-beats-*
+name: Access-to-ADMIN$-Share_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

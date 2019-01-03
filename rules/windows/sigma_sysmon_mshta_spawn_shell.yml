@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects a Windows command line executable started from MSHTA.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_data.ParentImage.keyword:*\\mshta.exe
+        AND event_id:"1" AND event_data.Image.keyword:(*\\cmd.exe *\\powershell.exe
+        *\\wscript.exe *\\cscript.exe *\\sh.exe *\\bash.exe *\\reg.exe *\\regsvr32.exe
+        *\\BITSADMIN*)) AND NOT (event_data.CommandLine.keyword:(*\/HP\/HP* *\\HP\\HP*)))
+index: logstash-beats-*
+name: MSHTA-Spawning-Windows-Shell_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the usage of Sysinternals Tools due to accepteula key beeing
+  added to Registry
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.TargetObject.keyword:*\\EulaAccepted
+        AND event_id:"13")
+index: logstash-beats-*
+name: Usage-of-Sysinternals-Tools_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

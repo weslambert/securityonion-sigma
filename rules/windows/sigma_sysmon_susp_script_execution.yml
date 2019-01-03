@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious file execution by wscript and cscript
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.Image.keyword:(*\\wscript.exe
+        *\\cscript.exe) AND event_data.CommandLine.keyword:(*.jse *.vbe *.js *.vba)
+        AND event_id:"1")
+index: logstash-beats-*
+name: WSF/JSE/JS/VBA/VBE-File-Execution_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

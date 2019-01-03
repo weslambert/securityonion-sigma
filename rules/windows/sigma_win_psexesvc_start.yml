@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects a PsExec service start
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ProcessCommandLine:"C\:\\Windows\\PSEXESVC.exe")
+index: logstash-beats-*
+name: PsExec-Service-Start_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

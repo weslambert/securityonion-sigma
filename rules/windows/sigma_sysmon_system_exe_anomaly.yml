@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects a Windows program executable started in a suspicious folder
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_id:"1"
+        AND event_data.Image.keyword:(*\\svchost.exe *\\rundll32.exe *\\services.exe
+        *\\powershell.exe *\\regsvr32.exe *\\spoolsv.exe *\\lsass.exe *\\smss.exe
+        *\\csrss.exe *\\conhost.exe)) AND NOT (event_data.Image.keyword:(*\\System32\*
+        *\\SysWow64\*)))
+index: logstash-beats-*
+name: System-File-Execution-Location-Anomaly_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

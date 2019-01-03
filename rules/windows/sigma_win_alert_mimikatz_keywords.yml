@@ -1,0 +1,18 @@
+alert:
+- debug
+description: This method detects mimikatz keywords in different Eventlogs (some of
+  them only appear in older Mimikatz version that are however still used by different
+  threat groups)
+filter:
+- query:
+    query_string:
+      query: (mimikatz OR mimilib OR 3\ eo.oe OR eo.oe.kiwi OR privilege\:\:debug
+        OR sekurlsa\:\:logonpasswords OR lsadump\:\:sam OR mimidrv.sys)
+index: logstash-beats-*
+name: Mimikatz-Use_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

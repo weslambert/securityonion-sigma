@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detect remote login by Administrator user depending on internal pattern
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_data.AccountName.keyword:Admin\-* AND
+        event_data.LogonType:"10" AND event_data.AuthenticationPackageName:"Negotiate"
+        AND event_id:"4624")
+index: logstash-beats-*
+name: Admin-User-Remote-Logon_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

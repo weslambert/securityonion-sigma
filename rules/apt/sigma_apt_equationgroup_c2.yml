@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects communication to C2 servers mentioned in the operational notes
+  of the ShadowBroker leak of EquationGroup C2 tools
+filter:
+- query:
+    query_string:
+      query: (src_ip:("69.42.98.86" "89.185.234.145") OR dst_ip:("69.42.98.86" "89.185.234.145"))
+index: logstash-beats-*
+name: Equation-Group-C2-Communication_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

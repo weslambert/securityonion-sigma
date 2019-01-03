@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects process starts of binaries from a suspicious folder
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.Image.keyword:(C\:\\PerfLogs\* C\:\\$Recycle.bin\* C\:\\Intel\\Logs\*
+        C\:\\Users\\Default\* C\:\\Users\\Public\* C\:\\Users\\NetworkService\* C\:\\Windows\\Fonts\*
+        C\:\\Windows\\Debug\* C\:\\Windows\\Media\* C\:\\Windows\\Help\* C\:\\Windows\\addins\*
+        C\:\\Windows\\repair\* C\:\\Windows\\security\* *\\RSA\\MachineKeys\* C\:\\Windows\\system32\\config\\systemprofile\*))
+index: logstash-beats-*
+name: Executables-Started-in-Suspicious-Folder_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

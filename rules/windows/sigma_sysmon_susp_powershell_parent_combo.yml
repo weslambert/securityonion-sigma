@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects suspicious powershell invocations from interpreters or unusual
+  programs
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_id:"1"
+        AND event_data.Image.keyword:(*\\powershell.exe) AND event_data.ParentImage.keyword:(*\\wscript.exe
+        *\\cscript.exe)) AND NOT (event_data.CurrentDirectory.keyword:*\\Health\ Service\
+        State\*))
+index: logstash-beats-*
+name: Suspicious-PowerShell-Invocation-based-on-Parent-Process_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

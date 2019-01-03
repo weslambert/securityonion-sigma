@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects service ticket requests using RC4 encryption type
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND (event_data.TicketEncryptionType:"0x17" AND
+        event_id:"4769" AND event_data.TicketOptions:"0x40810000") AND NOT (event_data.ServiceName.keyword:$*))
+index: logstash-beats-*
+name: Suspicious-Kerberos-RC4-Ticket-Encryption_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

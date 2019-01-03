@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects changes to HKCU:\Software\Classes\exefile\shell\runas\command\isolatedCommand
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.TargetObject:"HKEY_USERS\*\\Classes\\exefile\\shell\\runas\\command\\isolatedCommand"
+        AND event_id:"13")
+index: logstash-beats-*
+name: UAC-Bypass-via-sdclt_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

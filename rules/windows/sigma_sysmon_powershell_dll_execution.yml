@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects PowerShell Strings applied to rundllas seen in PowerShdll.dll
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND (event_data.Image.keyword:(*\\rundll32.exe) OR event_data.Description.keyword:(*Windows\-Hostprozess\
+        \(Rundll32\)*)) AND event_data.CommandLine.keyword:(*Default.GetString* *FromBase64String*))
+index: logstash-beats-*
+name: Detection-of-PowerShell-Execution-via-DLL_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

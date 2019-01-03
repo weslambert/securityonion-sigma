@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects interactive console logons to
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND (event_id:("528" "529" "4624" "4625") AND event_data.ComputerName:("%ServerSystems%"
+        "%DomainControllers%") AND event_data.LogonType:"2") AND NOT (event_data.LogonProcessName:"Advapi"
+        AND event_data.ComputerName:"%Workstations%"))
+index: logstash-beats-*
+name: Interactive-Logon-to-Server-Systems_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

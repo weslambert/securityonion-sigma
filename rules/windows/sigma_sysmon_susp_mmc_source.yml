@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Processes started by MMC could be a sign of lateral movement using MMC
+  application COM object
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_data.Image.keyword:*\\cmd.exe
+        AND event_id:"1" AND event_data.ParentImage.keyword:*\\mmc.exe) AND NOT (event_data.CommandLine.keyword:*\\RunCmd.cmd))
+index: logstash-beats-*
+name: Processes-created-by-MMC_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

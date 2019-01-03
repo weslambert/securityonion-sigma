@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects successful logon with logon type 9 (NewCredentials) which matches
+  the Overpass the Hash behavior of e.g Mimikatz's sekurlsa::pth module.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_data.AuthenticationPackageName:"Negotiate"
+        AND event_id:"4624" AND event_data.LogonType:"9" AND event_data.LogonProcessName:"seclogo")
+index: logstash-beats-*
+name: Successful-Overpass-the-Hash-Attempt_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

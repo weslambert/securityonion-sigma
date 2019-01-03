@@ -1,0 +1,21 @@
+alert:
+- debug
+description: Detects various anomalies in relation to regsvr32.exe
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND ((event_data.Image.keyword:*\\regsvr32.exe AND event_data.ParentImage.keyword:*\\powershell.exe)
+        OR (event_data.Image.keyword:*\\wscript.exe AND event_data.ParentImage.keyword:*\\regsvr32.exe)
+        OR (event_data.CommandLine.keyword:*..\\..\\..\\Windows\\System32\\regsvr32.exe\
+        * AND event_data.Image.keyword:*\\EXCEL.EXE) OR (event_data.CommandLine.keyword:*\\Temp\*
+        AND event_data.Image.keyword:*\\regsvr32.exe) OR (event_data.CommandLine.keyword:(*\/i\:http*\
+        scrobj.dll *\/i\:ftp*\ scrobj.dll) AND event_data.Image.keyword:*\\regsvr32.exe)))
+index: logstash-beats-*
+name: Regsvr32-Anomaly_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

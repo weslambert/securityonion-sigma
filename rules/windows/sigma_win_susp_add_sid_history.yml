@@ -1,0 +1,15 @@
+alert:
+- debug
+description: An attacker can use the SID history attribute to gain additional privileges.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:("4765" "4766"))
+index: logstash-beats-*
+name: Addition-of-SID-History-to-Active-Directory-Object_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects the attack technique pass the hash which is used to move laterally
+  inside the network
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND (event_data.WorkstationName:"%Workstations%"
+        AND event_data.LogonProcessName:"NtLmSsp" AND event_data.LogonType:"3" AND
+        event_data.ComputerName:"%Workstations%" AND (event_id:"4624" OR event_id:"4625"))
+        AND NOT (event_data.AccountName:"ANONYMOUS\ LOGON"))
+index: logstash-beats-*
+name: Pass-the-Hash-Activity_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

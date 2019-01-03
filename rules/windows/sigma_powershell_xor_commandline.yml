@@ -1,0 +1,33 @@
+alert:
+- debug
+description: Detects suspicious powershell process which includes bxor command, alternatvide
+  obfuscation method to b64 encoded commands.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:(*\ \-bxor*))
+index: logstash-beats-*
+name: Suspicious-XOR-Encoded-PowerShell-Command-Line_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects suspicious powershell process which includes bxor command, alternatvide
+  obfuscation method to b64 encoded commands.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND event_data.CommandLine.keyword:(*\
+        \-bxor*))
+index: logstash-beats-*
+name: Suspicious-XOR-Encoded-PowerShell-Command-Line-2_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

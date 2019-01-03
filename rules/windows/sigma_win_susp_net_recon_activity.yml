@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects activity as "net user administrator /domain" and "net group domain
+  admins /domain"
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4661" AND event_data.AccessMask:"0x2d"
+        AND ((event_data.ObjectName.keyword:S\-1\-5\-21\-*\-500 AND event_data.ObjectType:"SAM_USER")
+        OR (event_data.ObjectName.keyword:S\-1\-5\-21\-*\-512 AND event_data.ObjectType:"SAM_GROUP")))
+index: logstash-beats-*
+name: Reconnaissance-Activity_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

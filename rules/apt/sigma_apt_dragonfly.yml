@@ -1,0 +1,31 @@
+alert:
+- debug
+description: Detects CrackMapExecWin Activity as Described by NCSC
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_data.NewProcessName.keyword:(*\\crackmapexec.exe)
+        AND event_id:"4688")
+index: logstash-beats-*
+name: CrackMapExecWin_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects CrackMapExecWin Activity as Described by NCSC
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.Image.keyword:(*\\crackmapexec.exe)
+        AND event_id:"1")
+index: logstash-beats-*
+name: CrackMapExecWin-2_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

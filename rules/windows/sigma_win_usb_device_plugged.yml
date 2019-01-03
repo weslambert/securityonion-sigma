@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects plugged USB devices
+filter:
+- query:
+    query_string:
+      query: (source:"Microsoft\-Windows\-DriverFrameworks\-UserMode\/Operational"
+        AND event_id:("2003" "2100" "2102"))
+index: logstash-beats-*
+name: USB-Device-Plugged_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

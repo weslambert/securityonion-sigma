@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects scenario where if a user is assigned the SeEnableDelegationPrivilege
+  right in Active Directory it would allow control of other AD user objects.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND "SeEnableDelegationPrivilege" AND event_id:"4704")
+index: logstash-beats-*
+name: Enabled-User-Right-in-AD-to-Control-User-Objects_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

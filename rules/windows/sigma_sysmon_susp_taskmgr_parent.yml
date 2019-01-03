@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects the creation of a process from Windows task manager
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_data.ParentImage.keyword:*\\taskmgr.exe
+        AND event_id:"1") AND NOT (event_data.Image:("resmon.exe" "mmc.exe")))
+index: logstash-beats-*
+name: Taskmgr-as-Parent_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

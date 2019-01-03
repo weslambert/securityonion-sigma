@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects logons using NTLM, which could be caused by a legacy source or
+  attackers
+filter:
+- query:
+    query_string:
+      query: (event_id:"8002" AND event_data.CallingProcessName.keyword:*)
+index: logstash-beats-*
+name: NTLM-Logon_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

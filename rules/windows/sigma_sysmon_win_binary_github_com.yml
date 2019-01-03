@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects an executable in the Windows folder accessing github.com
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.Image:"C\:\\Windows\*"
+        AND event_data.DestinationHostname.keyword:(*.github.com *.githubusercontent.com)
+        AND event_id:"3")
+index: logstash-beats-*
+name: Microsoft-Binary-Github-Communication_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

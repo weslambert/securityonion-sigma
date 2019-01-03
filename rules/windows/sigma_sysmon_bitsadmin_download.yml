@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects usage of bitsadmin downloading a file
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine:("\/transfer") AND event_data.Image.keyword:(*\\bitsadmin.exe))
+index: logstash-beats-*
+name: Bitsadmin-Download_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

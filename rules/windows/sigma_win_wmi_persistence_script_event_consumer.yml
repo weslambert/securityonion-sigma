@@ -1,0 +1,31 @@
+alert:
+- debug
+description: Detects WMI script event consumers
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.ParentImage:"C\:\\Windows\\System32\\svchost.exe"
+        AND event_id:"1" AND event_data.Image:"C\:\\WINDOWS\\system32\\wbem\\scrcons.exe")
+index: logstash-beats-*
+name: WMI-Persistence---Script-Event-Consumer_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects WMI script event consumers
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_data.ParentImage:"C\:\\Windows\\System32\\svchost.exe"
+        AND event_id:"4688" AND event_data.Image:"C\:\\WINDOWS\\system32\\wbem\\scrcons.exe")
+index: logstash-beats-*
+name: WMI-Persistence---Script-Event-Consumer-2_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

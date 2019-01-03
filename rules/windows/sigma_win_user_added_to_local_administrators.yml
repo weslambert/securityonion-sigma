@@ -1,0 +1,17 @@
+alert:
+- debug
+description: This rule triggers on user accounts that are added to the local Administrators
+  group, which could be legitimate activity or a sign of privilege escalation activity
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND (event_id:"4732" AND event_data.GroupName:"Administrators")
+        AND NOT (event_data.SubjectUserName.keyword:*$))
+index: logstash-beats-*
+name: User-Added-to-Local-Administrators_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

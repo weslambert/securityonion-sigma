@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects PsExec service installation and execution events (service and
+  Sysmon)
+filter:
+- query:
+    query_string:
+      query: ((event_id:"7036" AND event_data.ServiceName:"PSEXESVC") OR (event_data.Image.keyword:*\\PSEXESVC.exe
+        AND event_id:"1" AND event_data.User:"NT\ AUTHORITY\\SYSTEM") OR (event_id:"7045"
+        AND event_data.ServiceFileName.keyword:*\\PSEXESVC.exe AND event_data.ServiceName:"PSEXESVC"))
+index: logstash-beats-*
+name: PsExec-Tool-Execution_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

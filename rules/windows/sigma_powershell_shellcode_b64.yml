@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects Base64 encoded Shellcode
+filter:
+- query:
+    query_string:
+      query: ((event_id:"4104" AND "*AAAAYInlM*") AND ("*OiCAAAAYInlM*" OR "*OiJAAAAYInlM*"))
+index: logstash-beats-*
+name: PowerShell-ShellCode_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

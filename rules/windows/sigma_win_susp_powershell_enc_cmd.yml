@@ -1,0 +1,34 @@
+alert:
+- debug
+description: Detects suspicious powershell process starts with base64 encoded commands
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_id:"1"
+        AND event_data.CommandLine.keyword:(*\ \-e\ JAB* *\ \-enc\ JAB* *\ \-encodedcommand\
+        JAB*)) AND NOT ((event_data.Image.keyword:*\\GRR\*) OR (event_data.CommandLine.keyword:*\
+        \-ExecutionPolicy\ remotesigned\ *)))
+index: logstash-beats-*
+name: Suspicious-Encoded-PowerShell-Command-Line_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects suspicious powershell process starts with base64 encoded commands
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND (event_id:"4688" AND event_data.CommandLine.keyword:(*\
+        \-e\ JAB* *\ \-enc\ JAB* *\ \-encodedcommand\ JAB*)) AND NOT ((event_data.Image.keyword:*\\GRR\*)
+        OR (event_data.CommandLine.keyword:*\ \-ExecutionPolicy\ remotesigned\ *)))
+index: logstash-beats-*
+name: Suspicious-Encoded-PowerShell-Command-Line-2_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

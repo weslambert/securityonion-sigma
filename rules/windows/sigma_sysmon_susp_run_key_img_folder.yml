@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects suspicious new RUN key element pointing to an executable in a
+  suspicious folder
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"13"
+        AND event_data.TargetObject.keyword:(*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\*
+        *\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce\*) AND event_data.Details.keyword:(C\:\\Windows\\Temp\*
+        *\\AppData\* C\:\\$Recycle.bin\* C\:\\Temp\* C\:\\Users\\Public\* C\:\\Users\\Default\*
+        C\:\\Users\\Desktop\*))
+index: logstash-beats-*
+name: New-RUN-Key-Pointing-to-Suspicious-Folder_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

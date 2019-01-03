@@ -1,0 +1,17 @@
+alert:
+- debug
+description: This method detects well-known keywords of malicious services in the
+  Windows System Eventlog
+filter:
+- query:
+    query_string:
+      query: ((event_id:("7045" "4697") AND ("WCE\ SERVICE" OR "WCESERVICE" OR "DumpSvc"))
+        OR (event_id:"16" AND event_data.HiveName.keyword:*\\AppData\\Local\\Temp\\SAM*.dmp))
+index: logstash-beats-*
+name: Malicious-Service-Install_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

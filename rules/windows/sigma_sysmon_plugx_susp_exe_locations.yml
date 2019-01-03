@@ -1,0 +1,41 @@
+alert:
+- debug
+description: Detects the execution of an executable that is typically used by PlugX
+  for DLL side loading started from an uncommon location
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (((((((((((((event_data.Image.keyword:*\\CamMute.exe
+        AND event_id:"1") AND NOT (event_data.Image.keyword:*\\Lenovo\\Communication\
+        Utility\* AND event_id:"1")) OR ((event_data.Image.keyword:*\\chrome_frame_helper.exe
+        AND event_id:"1") AND NOT (event_data.Image.keyword:*\\Google\\Chrome\\application\*
+        AND event_id:"1"))) OR ((event_data.Image.keyword:*\\dvcemumanager.exe AND
+        event_id:"1") AND NOT (event_data.Image.keyword:*\\Microsoft\ Device\ Emulator\*
+        AND event_id:"1"))) OR ((event_data.Image.keyword:*\\Gadget.exe AND event_id:"1")
+        AND NOT (event_data.Image.keyword:*\\Windows\ Media\ Player\* AND event_id:"1")))
+        OR ((event_data.Image.keyword:*\\hcc.exe AND event_id:"1") AND NOT (event_data.Image.keyword:*\\HTML\
+        Help\ Workshop\* AND event_id:"1"))) OR ((event_data.Image.keyword:*\\hkcmd.exe
+        AND event_id:"1") AND NOT (event_data.Image.keyword:(*\\System32\* *\\SysNative\*
+        *\\SysWowo64\*) AND event_id:"1"))) OR ((event_data.Image.keyword:*\\Mc.exe
+        AND event_id:"1") AND NOT (event_data.Image.keyword:(*\\Microsoft\ Visual\
+        Studio* *\\Microsoft\ SDK* *\\Windows\ Kit*) AND event_id:"1"))) OR ((event_data.Image.keyword:*\\MsMpEng.exe
+        AND event_id:"1") AND NOT (event_data.Image.keyword:(*\\Microsoft\ Security\
+        Client\* *\\Windows\ Defender\* *\\AntiMalware\*) AND event_id:"1"))) OR ((event_data.Image.keyword:*\\msseces.exe
+        AND event_id:"1") AND NOT (event_data.Image.keyword:*\\Microsoft\ Security\
+        Center\* AND event_id:"1"))) OR ((event_data.Image.keyword:*\\OInfoP11.exe
+        AND event_id:"1") AND NOT (event_data.Image.keyword:*\\Common\ Files\\Microsoft\
+        Shared\* AND event_id:"1"))) OR ((event_data.Image.keyword:*\\OleView.exe
+        AND event_id:"1") AND NOT (event_data.Image.keyword:(*\\Microsoft\ Visual\
+        Studio* *\\Microsoft\ SDK* *\\Windows\ Kit* *\\Windows\ Resource\ Kit\*) AND
+        event_id:"1"))) OR ((event_data.Image.keyword:*\\OleView.exe AND event_id:"1")
+        AND NOT (event_data.Image.keyword:(*\\Microsoft\ Visual\ Studio* *\\Microsoft\
+        SDK* *\\Windows\ Kit* *\\Windows\ Resource\ Kit\* *\\Microsoft.NET\*) AND
+        event_id:"1"))))
+index: logstash-beats-*
+name: Executable-used-by-PlugX-in-Uncommon-Location---Sysmon-Version_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

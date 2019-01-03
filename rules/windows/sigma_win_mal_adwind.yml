@@ -1,0 +1,62 @@
+alert:
+- debug
+description: Detects javaw.exe in AppData folder as used by Adwind / JRAT
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ProcessCommandLine.keyword:(*\\AppData\\Roaming\\Oracle*\\java*.exe\
+        * *cscript.exe\ *Retrive*.vbs\ *))
+index: logstash-beats-*
+name: Adwind-RAT-/-JRAT_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects javaw.exe in AppData folder as used by Adwind / JRAT
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"11"
+        AND event_data.TargetFilename.keyword:(*\\AppData\\Roaming\\Oracle\\bin\\java*.exe
+        *\\Retrive*.vbs))
+index: logstash-beats-*
+name: Adwind-RAT-/-JRAT-3_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects javaw.exe in AppData folder as used by Adwind / JRAT
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.Image.keyword:*\\AppData\\Roaming\\Oracle\\bin\\java*.exe
+        AND event_id:"1")
+index: logstash-beats-*
+name: Adwind-RAT-/-JRAT-2_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects javaw.exe in AppData folder as used by Adwind / JRAT
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.Details:"%AppData%\\Roaming\\Oracle\\bin\*"
+        AND event_id:"13" AND event_data.TargetObject.keyword:\\REGISTRY\\MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run*)
+index: logstash-beats-*
+name: Adwind-RAT-/-JRAT-4_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

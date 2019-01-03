@@ -1,0 +1,52 @@
+alert:
+- debug
+description: A sigma rule detecting an unidetefied attacker who used phishing emails
+  to target high profile orgs on November 2018. The Actor shares some TTPs with YYTRIUM/APT29
+  campaign in 2016.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"11"
+        AND event_data.TargetFilename.keyword:(*ds7002.lnk*))
+index: logstash-beats-*
+name: Unidentified-Attacker-November-2018-3_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: A sigma rule detecting an unidetefied attacker who used phishing emails
+  to target high profile orgs on November 2018. The Actor shares some TTPs with YYTRIUM/APT29
+  campaign in 2016.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:*cyzfc.dat,\ PointFunctionCall)
+index: logstash-beats-*
+name: Unidentified-Attacker-November-2018-2_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: A sigma rule detecting an unidetefied attacker who used phishing emails
+  to target high profile orgs on November 2018. The Actor shares some TTPs with YYTRIUM/APT29
+  campaign in 2016.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ProcessCommandLine.keyword:*cyzfc.dat,\
+        PointFunctionCall)
+index: logstash-beats-*
+name: Unidentified-Attacker-November-2018_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

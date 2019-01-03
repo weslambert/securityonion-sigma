@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects possible SafetyKatz Behaviour
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.TargetFilename.keyword:*\\Temp\\debug.bin
+        AND event_id:"11")
+index: logstash-beats-*
+name: Detection-of-SafetyKatz_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

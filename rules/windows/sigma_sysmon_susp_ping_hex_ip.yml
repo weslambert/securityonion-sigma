@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects a ping command that uses a hex encoded IP address
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine.keyword:(*\\ping.exe\
+        0x* *\\ping\ 0x*) AND event_id:"1")
+index: logstash-beats-*
+name: Ping-Hex-IP_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

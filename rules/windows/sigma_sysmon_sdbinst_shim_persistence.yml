@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects execution of sdbinst writing to default shim database path C:\Windows\AppPatch\*
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine.keyword:(*\\AppPatch\*\}.sdb*)
+        AND event_id:"1" AND event_data.Image.keyword:(*\\sdbinst.exe))
+index: logstash-beats-*
+name: Possible-Shim-Database-Persistence-via-sdbinst.exe_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

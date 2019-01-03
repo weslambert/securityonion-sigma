@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects usage of cmdkey to look for cached credentials
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.Image.keyword:*\\cmdkey.exe AND event_data.CommandLine.keyword:*\
+        \/list\ *)
+index: logstash-beats-*
+name: Cmdkey-Cached-Credentials-Recon_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

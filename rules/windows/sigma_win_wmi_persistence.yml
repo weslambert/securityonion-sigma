@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious WMI event filter and command line event consumer based
+  on event id 5861 and 5859 (Windows 10, 2012 and higher)
+filter:
+- query:
+    query_string:
+      query: ((event_id:"5861" AND ("ActiveScriptEventConsumer" OR "CommandLineEventConsumer"
+        OR "CommandLineTemplate" OR "Binding\ EventFilter")) OR event_id:"5859")
+index: logstash-beats-*
+name: WMI-Persistence_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

@@ -1,0 +1,20 @@
+alert:
+- debug
+description: Detects known malicious service installs that only appear in cases of
+  lateral movement, credential dumping and other suspicious activity
+filter:
+- query:
+    query_string:
+      query: (event_id:"7045" AND (event_data.ServiceFileName.keyword:*\\PAExec* OR
+        event_data.ServiceName:("WCESERVICE" "WCE\ SERVICE") OR event_data.ServiceName.keyword:(pwdump*
+        gsecdump* cachedump*) OR event_data.ServiceFileName.keyword:*\\DumpSvc.exe
+        OR event_data.ServiceFileName.keyword:*\ net\ user\ * OR event_data.ServiceName:"mssecsvc2.0"
+        OR event_data.ServiceFileName.keyword:winexesvc.exe*))
+index: logstash-beats-*
+name: Malicious-Service-Installations_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

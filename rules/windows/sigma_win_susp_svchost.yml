@@ -1,0 +1,35 @@
+alert:
+- debug
+description: Detects suspicious svchost processes with parent process that is not
+  services.exe, command line missing -k parameter or running outside Windows folder
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND (event_data.NewProcessName.keyword:*\\svchost.exe
+        AND event_id:"4688") AND NOT (event_data.NewProcessName.keyword:C\:\\Windows\\S*))
+index: logstash-beats-*
+name: Suspicious-Svchost-Processes-2_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects suspicious svchost processes with parent process that is not
+  services.exe, command line missing -k parameter or running outside Windows folder
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_data.Image.keyword:*\\svchost.exe
+        AND event_id:"1") AND NOT ((log_name:"Microsoft\-Windows\-Sysmon\/Operational"
+        AND (event_data.ParentImage.keyword:(*\\services.exe *\\MsMpEng.exe) OR event_data.CommandLine.keyword:*\
+        \-k\ * OR event_data.Image.keyword:C\:\\Windows\\S*))))
+index: logstash-beats-*
+name: Suspicious-Svchost-Processes_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

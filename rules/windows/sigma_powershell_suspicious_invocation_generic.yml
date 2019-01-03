@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious PowerShell invocation command parameters
+filter:
+- query:
+    query_string:
+      query: ((\ \-w\ hidden\  OR \ \-window\ hidden\  OR \ \-\ windowstyle\ hidden\
+        ) AND (\ \-noni\  OR \ \-noninteractive\ ) AND (\ \-enc\  OR \ \-EncodedCommand\
+        ))
+index: logstash-beats-*
+name: Suspicious-PowerShell-Invocations---Generic_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

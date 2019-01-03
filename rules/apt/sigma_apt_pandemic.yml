@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects Pandemic Windows Implant
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND ((event_data.TargetObject.keyword:(\\REGISTRY\\MACHINE\\SYSTEM\\CurrentControlSet\\services\\null\\Instance*
+        \\REGISTRY\\MACHINE\\SYSTEM\\ControlSet001\\services\\null\\Instance* \\REGISTRY\\MACHINE\\SYSTEM\\ControlSet002\\services\\null\\Instance*)
+        AND event_id:"13") OR (Command.keyword:loaddll\ \-a\ * AND event_id:"1")))
+index: logstash-beats-*
+name: Pandemic-Registry-Key_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

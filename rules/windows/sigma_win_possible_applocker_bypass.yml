@@ -1,0 +1,35 @@
+alert:
+- debug
+description: Detects execution of executables that can be used to bypass Applocker
+  whitelisting
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_data.CommandLine.keyword:(*\\msdt.exe*
+        *\\installutil.exe* *\\regsvcs.exe* *\\regasm.exe* *\\regsvr32.exe* *\\msbuild.exe*
+        *\\ieexec.exe* *\\mshta.exe*) AND event_id:"4688")
+index: logstash-beats-*
+name: Possible-Applocker-Bypass_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects execution of executables that can be used to bypass Applocker
+  whitelisting
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine.keyword:(*\\msdt.exe*
+        *\\installutil.exe* *\\regsvcs.exe* *\\regasm.exe* *\\regsvr32.exe* *\\msbuild.exe*
+        *\\ieexec.exe* *\\mshta.exe*) AND event_id:"1")
+index: logstash-beats-*
+name: Possible-Applocker-Bypass-2_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

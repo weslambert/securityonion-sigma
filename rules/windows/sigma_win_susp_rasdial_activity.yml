@@ -1,0 +1,30 @@
+alert:
+- debug
+description: Detects suspicious process related to rasdial.exe
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_data.CommandLine:("rasdial") AND event_id:"4688")
+index: logstash-beats-*
+name: Suspicious-RASdial-Activity_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects suspicious process related to rasdial.exe
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine:("rasdial")
+        AND event_id:"1")
+index: logstash-beats-*
+name: Suspicious-RASdial-Activity-2_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

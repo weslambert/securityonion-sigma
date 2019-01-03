@@ -1,0 +1,18 @@
+alert:
+- debug
+description: Detects a JAVA process running with remote debugging allowing more than
+  just localhost to connect
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_data.CommandLine.keyword:*transport\=dt_socket,address\=*
+        AND event_id:"1") AND NOT (event_data.CommandLine.keyword:*address\=127.0.0.1*
+        OR event_data.CommandLine.keyword:*address\=localhost*))
+index: logstash-beats-*
+name: Java-Running-with-Remote-Debugging_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

@@ -1,0 +1,33 @@
+alert:
+- debug
+description: Detects a specific tool and export used by EquationGroup
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ((ProcessCommandLine.keyword:*,dll_u
+        AND event_data.Image.keyword:*\\rundll32.exe) OR ProcessCommandLine.keyword:*\
+        \-export\ dll_u\ *))
+index: logstash-beats-*
+name: Equation-Group-DLL_U-Load-2_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects a specific tool and export used by EquationGroup
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND ((event_data.CommandLine.keyword:*,dll_u AND event_data.Image.keyword:*\\rundll32.exe)
+        OR event_data.CommandLine.keyword:*\ \-export\ dll_u\ *))
+index: logstash-beats-*
+name: Equation-Group-DLL_U-Load_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

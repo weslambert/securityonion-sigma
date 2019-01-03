@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects strings used in command execution in DNS TXT Answer
+filter:
+- query:
+    query_string:
+      query: answers.keyword:(*IEX* *Invoke\-Expression* *cmd.exe*)
+index: logstash-bro-*
+name: DNS-TXT-Answer-with-possible-execution-strings_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

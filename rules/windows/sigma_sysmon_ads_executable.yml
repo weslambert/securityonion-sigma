@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects the creation of an ADS data stream that contains an executable
+  (non-empty imphash)
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"15"
+        AND NOT (event_data.Imphash:"00000000000000000000000000000000"))
+index: logstash-beats-*
+name: Executable-in-ADS_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

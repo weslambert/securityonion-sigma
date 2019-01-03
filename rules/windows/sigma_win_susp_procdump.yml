@@ -1,0 +1,38 @@
+alert:
+- debug
+description: Detects suspicious uses of the SysInternals Procdump utility by using
+  a special command line parameter in combination with the lsass.exe process. This
+  way we're also able to catch cases in which the attacker has renamed the procdump
+  executable.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:(*\ \-ma\ *) AND event_data.CommandLine.keyword:(*\
+        lsass.exe*))
+index: logstash-beats-*
+name: Suspicious-Use-of-Procdump-2_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects suspicious uses of the SysInternals Procdump utility by using
+  a special command line parameter in combination with the lsass.exe process. This
+  way we're also able to catch cases in which the attacker has renamed the procdump
+  executable.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ProcessCommandLine.keyword:(*\
+        \-ma\ *) AND ProcessCommandLine.keyword:(*\ lsass.exe*))
+index: logstash-beats-*
+name: Suspicious-Use-of-Procdump_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

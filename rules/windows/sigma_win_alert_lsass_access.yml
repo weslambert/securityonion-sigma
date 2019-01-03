@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects Access to LSASS Process
+filter:
+- query:
+    query_string:
+      query: (event_data.Path.keyword:*\\lsass.exe AND event_id:"1121")
+index: logstash-beats-*
+name: LSASS-Access-Detected-via-Attack-Surface-Reduction_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

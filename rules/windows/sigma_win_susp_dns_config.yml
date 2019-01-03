@@ -1,0 +1,16 @@
+alert:
+- debug
+description: This rule detects a DNS server error in which a specified plugin DLL
+  (in registry) could not be loaded
+filter:
+- query:
+    query_string:
+      query: (log_name:"DNS\ Server" AND event_id:("150" "770"))
+index: logstash-beats-*
+name: DNS-Server-Error-Failed-Loading-the-ServerLevelPluginDLL_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

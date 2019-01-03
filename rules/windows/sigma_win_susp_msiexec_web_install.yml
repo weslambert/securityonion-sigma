@@ -1,0 +1,31 @@
+alert:
+- debug
+description: Detects suspicious msiexec proess starts with web addreses as parameter
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:(*\ msiexec*\:\\\/\\\/*))
+index: logstash-beats-*
+name: MsiExec-Web-Install_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects suspicious msiexec proess starts with web addreses as parameter
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND ProcessCommandLine.keyword:(*\ msiexec*\:\\\/\\\/*)
+        AND event_id:"4688")
+index: logstash-beats-*
+name: MsiExec-Web-Install-2_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

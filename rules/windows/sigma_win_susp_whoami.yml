@@ -1,0 +1,32 @@
+alert:
+- debug
+description: Detects the execution of whoami, which is often used by attackers after
+  exloitation / privilege escalation but rarely used by administrators
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND event_data.NewProcessName.keyword:*\\whoami.exe)
+index: logstash-beats-*
+name: Whoami-Execution-2_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects the execution of whoami, which is often used by attackers after
+  exloitation / privilege escalation but rarely used by administrators
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine:"whoami"
+        AND event_id:"1")
+index: logstash-beats-*
+name: Whoami-Execution_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

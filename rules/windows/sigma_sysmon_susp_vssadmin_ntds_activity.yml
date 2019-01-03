@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects suspicious commands that could be related to activity that uses
+  volume shadow copy to steal and retrieve hashes from the NTDS.dit file remotely
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine:("vssadmin.exe\
+        Delete\ Shadows" "vssadmin\ create\ shadow\ \/for\=C\:" "copy\ \\\?\\GLOBALROOT\\Device\*\\windows\\ntds\\ntds.dit"
+        "copy\ \\\?\\GLOBALROOT\\Device\*\\config\\SAM" "vssadmin\ delete\ shadows\
+        \/for\=C\:" "reg\ SAVE\ HKLM\\SYSTEM\ ") AND event_id:"1")
+index: logstash-beats-*
+name: Activity-Related-to-NTDS.dit-Domain-Hash-Retrieval_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the use of PSAttack PowerShell hack tool
+filter:
+- query:
+    query_string:
+      query: (event_id:"4103" AND "PS\ ATTACK\!\!\!")
+index: logstash-beats-*
+name: PowerShell-PSAttack_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

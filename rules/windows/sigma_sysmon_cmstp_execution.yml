@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects various indicators of Microsoft Connection Manager Profile Installer
+  execution
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND ((event_id:"1"
+        AND event_data.ParentImage.keyword:*\\cmstp.exe) OR (event_id:"12" AND event_data.TargetObject.keyword:*\\cmmgr32.exe*)
+        OR (event_id:"10" AND event_data.CallTrace.keyword:*cmlua.dll*) OR (event_id:"13"
+        AND event_data.TargetObject.keyword:*\\cmmgr32.exe*)))
+index: logstash-beats-*
+name: CMSTP-Execution_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

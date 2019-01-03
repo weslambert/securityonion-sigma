@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects persistence registry keys
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.TargetObject.keyword:(*\\SOFTWARE\\Microsoft\\Windows\
+        NT\\CurrentVersion\\Image\ File\ Execution\ Options\*\\GlobalFlag *\\SOFTWARE\\Microsoft\\Windows\
+        NT\\CurrentVersion\\SilentProcessExit\*\\ReportingMode *\\SOFTWARE\\Microsoft\\Windows\
+        NT\\CurrentVersion\\SilentProcessExit\*\\MonitorProcess) AND event_id:"13"
+        AND event_data.EventType:"SetValue")
+index: logstash-beats-*
+name: Registry-Persistence-Mechanisms_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects wceaux.dll access while WCE pass-the-hash remote command execution
+  on source host
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:("4656" "4658" "4660" "4663") AND event_data.ObjectName.keyword:*\\wceaux.dll)
+index: logstash-beats-*
+name: WCE-wceaux.dll-Access_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

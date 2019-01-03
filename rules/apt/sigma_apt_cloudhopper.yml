@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects suspicious file execution by wscript and cscript
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine.keyword:*.vbs\
+        \/shell\ * AND event_id:"1" AND event_data.Image.keyword:*\\cscript.exe)
+index: logstash-beats-*
+name: WMIExec-VBS-Script_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

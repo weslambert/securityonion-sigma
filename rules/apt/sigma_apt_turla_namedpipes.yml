@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a named pipe used by Turla group samples
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:("17"
+        "18") AND event_data.PipeName:("\\atctl" "\\userpipe" "\\iehelper" "\\sdlrpc"
+        "\\comnap"))
+index: logstash-beats-*
+name: Turla-Group-Named-Pipes_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

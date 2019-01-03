@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects programs with network connections running in suspicious files
+  system locations
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"3"
+        AND event_data.Image.keyword:(*\\$Recycle.bin *\\Users\\All\ Users\* *\\Users\\Default\*
+        *\\Users\\Public\* C\:\\Perflogs\* *\\config\\systemprofile\* *\\Windows\\Fonts\*
+        *\\Windows\\IME\* *\\Windows\\addins\*))
+index: logstash-beats-*
+name: Suspicious-Program-Location-with-Network-Connections_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

@@ -1,0 +1,31 @@
+alert:
+- debug
+description: Detects Sofacy's Zebrocy malware execution
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:*cmd.exe\ \/c\ SYSTEMINFO\ &\ TASKLIST)
+index: logstash-beats-*
+name: Sofacy-Zebrocy_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects Sofacy's Zebrocy malware execution
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ProcessCommandLine.keyword:*cmd.exe\
+        \/c\ SYSTEMINFO\ &\ TASKLIST)
+index: logstash-beats-*
+name: Sofacy-Zebrocy-2_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

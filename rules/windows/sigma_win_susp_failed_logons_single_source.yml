@@ -1,0 +1,47 @@
+alert:
+- debug
+buffer_time:
+  hours: 24
+description: Detects suspicious failed logins with different user accounts from a
+  single source system
+doc_type: doc
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND UserName.keyword:* AND event_id:("529" "4625")
+        AND event_data.WorkstationName.keyword:*)
+index: logstash-beats-*
+max_threshold: 3
+metric_agg_key: UserName.keyword
+metric_agg_type: cardinality
+name: Multiple-Failed-Logins-with-Different-Accounts-from-Single-Source-System_0
+priority: 3
+query_key: event_data.WorkstationName.keyword
+realert:
+  minutes: 0
+type: metric_aggregation
+
+alert:
+- debug
+buffer_time:
+  hours: 24
+description: Detects suspicious failed logins with different user accounts from a
+  single source system
+doc_type: doc
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND Workstation.keyword:* AND event_id:"4776" AND
+        UserName.keyword:*)
+index: logstash-beats-*
+max_threshold: 3
+metric_agg_key: UserName.keyword
+metric_agg_type: cardinality
+name: Multiple-Failed-Logins-with-Different-Accounts-from-Single-Source-System_1
+priority: 3
+query_key: Workstation.keyword
+realert:
+  minutes: 0
+type: metric_aggregation
+
+

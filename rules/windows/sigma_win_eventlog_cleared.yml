@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects a cleared Windows Eventlog as e.g. caused by "wevtutil cl" command
+  execution
+filter:
+- query:
+    query_string:
+      query: (event_id:"104" AND event_data.Source:"Eventlog")
+index: logstash-beats-*
+name: Eventlog-Cleared-Experimental_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

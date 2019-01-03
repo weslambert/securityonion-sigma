@@ -1,0 +1,15 @@
+alert:
+- debug
+description: Detects the use of smbexec.py tool by detecting a specific service installation
+filter:
+- query:
+    query_string:
+      query: (event_id:"7045" AND event_data.ServiceName:"BTOBTO" AND event_data.ServiceFileName.keyword:*\\execute.bat)
+index: logstash-beats-*
+name: smbexec.py-Service-Installation_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

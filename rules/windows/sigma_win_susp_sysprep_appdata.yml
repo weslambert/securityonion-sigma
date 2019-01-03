@@ -1,0 +1,34 @@
+alert:
+- debug
+description: Detects suspicious sysprep process start with AppData folder as target
+  (as used by Trojan Syndicasec in Thrip report by Symantec)
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:(*\\sysprep.exe\ *\\AppData\* sysprep.exe\
+        *\\AppData\*))
+index: logstash-beats-*
+name: Sysprep-on-AppData-Folder_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects suspicious sysprep process start with AppData folder as target
+  (as used by Trojan Syndicasec in Thrip report by Symantec)
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ProcessCommandLine.keyword:(*\\sysprep.exe\
+        *\\AppData\* sysprep.exe\ *\\AppData\*))
+index: logstash-beats-*
+name: Sysprep-on-AppData-Folder-2_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

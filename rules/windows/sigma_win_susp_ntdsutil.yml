@@ -1,0 +1,33 @@
+alert:
+- debug
+description: Detects execution of ntdsutil.exe, which can be used for various attacks
+  against the NTDS database (NTDS.DIT)
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:*\\ntdsutil.exe\ *)
+index: logstash-beats-*
+name: Invocation-of-Active-Directory-Diagnostic-Tool-ntdsutil.exe_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects execution of ntdsutil.exe, which can be used for various attacks
+  against the NTDS database (NTDS.DIT)
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND event_data.CommandLine.keyword:*\\ntdsutil.exe\
+        *)
+index: logstash-beats-*
+name: Invocation-of-Active-Directory-Diagnostic-Tool-ntdsutil.exe-2_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

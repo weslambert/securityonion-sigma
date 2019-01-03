@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects process handle on LSASS process with certain access mask and
+  object type SAM_DOMAIN
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_data.ObjectType:"SAM_DOMAIN" AND event_id:"4656"
+        AND event_data.ProcessName:"C\:\\Windows\\System32\\lsass.exe" AND event_data.AccessMask:"0x705")
+index: logstash-beats-*
+name: Password-Dumper-Activity-on-LSASS_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

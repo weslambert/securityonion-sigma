@@ -1,0 +1,31 @@
+alert:
+- debug
+description: Detects a suspicious RDP session redirect using tscon.exe
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine.keyword:*\
+        \/dest\:rdp\-tcp\:* AND event_id:"1")
+index: logstash-beats-*
+name: Suspicious-RDP-Redirect-Using-TSCON_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects a suspicious RDP session redirect using tscon.exe
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ProcessCommandLine.keyword:*\
+        \/dest\:rdp\-tcp\:*)
+index: logstash-beats-*
+name: Suspicious-RDP-Redirect-Using-TSCON-2_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

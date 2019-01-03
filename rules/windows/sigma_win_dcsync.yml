@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects Mimikatz DC sync security events
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_data.Properties.keyword:(*Replicating\
+        Directory\ Changes\ All* *1131f6ad\-9c07\-11d1\-f79f\-00c04fc2dcd2*) AND event_id:"4662")
+index: logstash-beats-*
+name: Mimikatz-DC-Sync_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

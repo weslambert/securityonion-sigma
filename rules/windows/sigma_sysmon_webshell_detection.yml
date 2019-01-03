@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects certain command line parameters often used during reconnaissance
+  activity via web shells
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.ParentImage.keyword:(*\\apache* *\\tomcat* *\\w3wp.exe *\\php\-cgi.exe
+        *\\nginx.exe *\\httpd.exe) AND event_data.CommandLine:("whoami" "net\ user"
+        "ping\ \-n" "systeminfo"))
+index: logstash-beats-*
+name: Webshell-Detection-With-Command-Line-Keywords_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

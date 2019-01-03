@@ -1,0 +1,17 @@
+alert:
+- debug
+description: This method uses uncommon error codes on failed logons to determine suspicious
+  activity and tampering with accounts that have been disabled or somehow restricted.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:("4625" "4776") AND event_data.Status:("0xC0000072"
+        "0xC000006F" "0xC0000070" "0xC0000413" "0xC000018C"))
+index: logstash-beats-*
+name: Account-Tampering---Suspicious-Failed-Logon-Reasons_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

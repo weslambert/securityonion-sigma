@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects file writes of WMI script event consumer
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"11"
+        AND event_data.Image:"C\:\\WINDOWS\\system32\\wbem\\scrcons.exe")
+index: logstash-beats-*
+name: WMI-Persistence---Script-Event-Consumer-File-Write_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

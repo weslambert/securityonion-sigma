@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects a suspicious program execution in a web service root folder (filter
+  out false positives)
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_id:"1"
+        AND event_data.Image.keyword:(*\\wwwroot\* *\\wmpub\* *\\htdocs\*)) AND NOT
+        (event_data.ParentImage.keyword:(*\\services.exe) AND event_data.Image.keyword:(*bin\*
+        *\\Tools\* *\\SMSComponent\*)))
+index: logstash-beats-*
+name: Execution-in-Webserver-Root-Folder_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

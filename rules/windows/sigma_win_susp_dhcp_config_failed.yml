@@ -1,0 +1,16 @@
+alert:
+- debug
+description: This rule detects a DHCP server error in which a specified Callout DLL
+  (in registry) could not be loaded
+filter:
+- query:
+    query_string:
+      query: event_id:("1031" "1032" "1034")
+index: logstash-beats-*
+name: DHCP-Server-Error-Failed-Loading-the-CallOut-DLL_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

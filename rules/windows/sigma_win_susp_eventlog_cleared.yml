@@ -1,0 +1,15 @@
+alert:
+- debug
+description: One of the Windows Eventlogs has been cleared
+filter:
+- query:
+    query_string:
+      query: event_id:"104"
+index: logstash-beats-*
+name: Eventlog-Cleared_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

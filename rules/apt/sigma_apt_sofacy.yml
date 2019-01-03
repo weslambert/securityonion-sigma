@@ -1,0 +1,32 @@
+alert:
+- debug
+description: Detects Trojan loader acitivty as used by APT28
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:(rundll32.exe\ %APPDATA%\*.dat\",* rundll32.exe\
+        %APPDATA%\*.dll\",#1))
+index: logstash-beats-*
+name: Sofacy-Trojan-Loader-Activity_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects Trojan loader acitivty as used by APT28
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND ProcessCommandLine.keyword:(rundll32.exe\ %APPDATA%\*.dat\",*
+        rundll32.exe\ %APPDATA%\*.dll\",#1) AND event_id:"4688")
+index: logstash-beats-*
+name: Sofacy-Trojan-Loader-Activity-2_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects a driver load from a temporary directory
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.ImageLoaded.keyword:*\\Temp\*
+        AND event_id:"6")
+index: logstash-beats-*
+name: Suspicious-Driver-Load-from-Temp_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

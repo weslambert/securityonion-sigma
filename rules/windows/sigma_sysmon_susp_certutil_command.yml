@@ -1,0 +1,43 @@
+alert:
+- debug
+description: Detects a suspicious Microsoft certutil execution with sub commands like
+  'decode' sub command, which is sometimes used to decode malicious code with the
+  built-in certutil utility
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ProcessCommandLine.keyword:(*certutil\
+        *\ \-decode\ * *certutil\ *\ \-decodehex\ * *certutil\ *\-urlcache*\ http*
+        *certutil\ *\-urlcache*\ ftp* *certutil\ *\-URL* *certutil\ *\-ping* *certutil.exe\
+        *\ \-decode\ * *certutil.exe\ *\ \-decodehex\ * *certutil.exe\ *\-urlcache*\
+        http* *certutil.exe\ *\-urlcache*\ ftp* *certutil.exe\ *\-URL* *certutil.exe\
+        *\-ping*))
+index: logstash-beats-*
+name: Suspicious-Certutil-Command-2_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects a suspicious Microsoft certutil execution with sub commands like
+  'decode' sub command, which is sometimes used to decode malicious code with the
+  built-in certutil utility
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:(*certutil\ *\ \-decode\ * *certutil\ *\
+        \-decodehex\ * *certutil\ *\-urlcache*\ http* *certutil\ *\-urlcache*\ ftp*
+        *certutil\ *\-URL* *certutil\ *\-ping* *certutil.exe\ *\ \-decode\ * *certutil.exe\
+        *\ \-decodehex\ * *certutil.exe\ *\-urlcache*\ http* *certutil.exe\ *\-urlcache*\
+        ftp* *certutil.exe\ *\-URL* *certutil.exe\ *\-ping*))
+index: logstash-beats-*
+name: Suspicious-Certutil-Command_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

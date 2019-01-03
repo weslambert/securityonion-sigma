@@ -1,0 +1,35 @@
+alert:
+- debug
+description: Detects command line parameters used by Rubeus hack tool
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine.keyword:(*\ asreproast\ * *\ dump\ \/service\:krbtgt\
+        * *\ kerberoast\ * *\ createnetonly\ \/program\:* *\ ptt\ \/ticket\:* *\ \/impersonateuser\:*
+        *\ renew\ \/ticket\:* *\ asktgt\ \/user\:* *\ harvest\ \/interval\:*))
+index: logstash-beats-*
+name: Rubeus-Hack-Tool_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects command line parameters used by Rubeus hack tool
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ProcessCommandLine.keyword:(*\
+        asreproast\ * *\ dump\ \/service\:krbtgt\ * *\ kerberoast\ * *\ createnetonly\
+        \/program\:* *\ ptt\ \/ticket\:* *\ \/impersonateuser\:* *\ renew\ \/ticket\:*
+        *\ asktgt\ \/user\:* *\ harvest\ \/interval\:*))
+index: logstash-beats-*
+name: Rubeus-Hack-Tool-2_0
+priority: 1
+realert:
+  minutes: 0
+type: any
+
+

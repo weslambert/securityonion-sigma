@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects suspicious command line activity on Windows systems
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.CommandLine:("net\
+        group\ \"domain\ admins\"\ \/domain" "net\ localgroup\ administrators") AND
+        event_id:"1")
+index: logstash-beats-*
+name: Suspicious-Reconnaissance-Activity_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

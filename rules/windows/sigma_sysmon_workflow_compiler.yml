@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects invocation of Microsoft Workflow Compiler, which may permit the
+  execution of arbitrary unsigned code.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.Image.keyword:*\\Microsoft.Workflow.Compiler.exe)
+index: logstash-beats-*
+name: Microsoft-Workflow-Compiler_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+

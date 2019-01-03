@@ -1,0 +1,17 @@
+alert:
+- debug
+description: Detects a rundll32 that communicates with public IP addresses
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_data.Image.keyword:*\\rundll32.exe
+        AND event_id:"3") AND NOT (event_data.DestinationIp.keyword:(10.* 192.168.*
+        172.*)))
+index: logstash-beats-*
+name: Rundll32-Internet-Connection_0
+priority: 3
+realert:
+  minutes: 0
+type: any
+
+

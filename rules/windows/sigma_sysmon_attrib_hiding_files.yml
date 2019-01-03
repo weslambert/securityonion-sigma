@@ -1,0 +1,19 @@
+alert:
+- debug
+description: Detects usage of attrib.exe to hide files from users.
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_data.CommandLine.keyword:*\
+        \+h\ * AND event_id:"1" AND event_data.Image.keyword:*\\attrib.exe) AND NOT
+        ((log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND (event_data.CommandLine.keyword:*\\desktop.ini\
+        * OR (event_data.CommandLine:"\+R\ \+H\ \+S\ \+A\ \*.cui" AND event_data.ParentImage.keyword:*\\cmd.exe
+        AND event_data.ParentCommandLine:"C\:\\WINDOWS\\system32\\\*.bat")))))
+index: logstash-beats-*
+name: Hiding-files-with-attrib.exe_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

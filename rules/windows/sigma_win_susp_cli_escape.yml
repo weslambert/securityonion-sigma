@@ -1,0 +1,31 @@
+alert:
+- debug
+description: Detects suspicious process that use escape characters
+filter:
+- query:
+    query_string:
+      query: (log_name:"Security" AND event_id:"4688" AND ProcessCommandLine:("TAB"
+        "\^h\^t\^t\^p" "h\"t\"t\"p"))
+index: logstash-beats-*
+name: Suspicious-Commandline-Escape_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+alert:
+- debug
+description: Detects suspicious process that use escape characters
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_id:"1"
+        AND event_data.CommandLine:("TAB" "\^h\^t\^t\^p" "h\"t\"t\"p"))
+index: logstash-beats-*
+name: Suspicious-Commandline-Escape-2_0
+priority: 4
+realert:
+  minutes: 0
+type: any
+
+

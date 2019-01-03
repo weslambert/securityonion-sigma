@@ -1,0 +1,16 @@
+alert:
+- debug
+description: Detects WMI command line event consumers
+filter:
+- query:
+    query_string:
+      query: (log_name:"Microsoft\-Windows\-Sysmon\/Operational" AND event_data.ImageLoaded:"wbemcons.dll"
+        AND event_id:"7" AND event_data.Image:"C\:\\Windows\\System32\\wbem\\WmiPrvSE.exe")
+index: logstash-beats-*
+name: WMI-Persistence---Command-Line-Event-Consumer_0
+priority: 2
+realert:
+  minutes: 0
+type: any
+
+
